@@ -80,12 +80,17 @@ const Cart = () => {
               </div>
               
               <input
-                type="number"
-                min="1"
-                value={item.quantity}
-                onChange={(e)=>e.target.value === "" || e.target.value === "0" ? null :updateQuntity(item.productId, item.size, Number(e.target.value))}
-                className="w-16 sm:w-20 px-2 py-1 border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+  type="number"
+  min="1"
+  value={item.quantity}
+  onChange={(e) =>
+    e.target.value === "" || e.target.value === "0"
+      ? null
+      : updateQuntity(item.productId, item.size, Number(e.target.value))
+  }
+  className="w-16 sm:w-20 md:w-24 lg:w-28 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
+
               <BiTrash className="w-4 sm:w-5 cursor-pointer mt-6 hover:text-red-500" onClick={() => updateQuntity(item.productId, item.size, 0)} />
 
               <div className="flex flex-col items-end">
