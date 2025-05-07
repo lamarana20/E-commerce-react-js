@@ -11,15 +11,15 @@ import MainLayout from "./Layout/MainLayout";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 
-import Contact from "./pages/Contact";
-import Product from "./pages/Product";
-import Card from "./pages/Cart";
-import PlaceOrder from "./pages/PlaceOrder";
-import Orders from "./pages/Orders";
-import NotFound from "./pages/NotFound";
+import Contact from "./Pages/Contact";
+import Product from "./Pages/Product";
+import Card from "./Pages/Cart";
+import PlaceOrder from "./Pages/PlaceOrder";
+import Orders from "./Pages/Orders";
+import NotFound from "./Pages/NotFound";
 
-import Collection from "./pages/Collection";
-import Home from "./pages/Home";
+import Collection from "./Pages/Collection";
+import Home from "./Pages/Home";
 import  ShopContextProvider  from "./Context/ShopContext";
 import { CategoryProvider } from './Context/CategoryContext';
 const router = createBrowserRouter(
