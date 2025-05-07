@@ -10,18 +10,28 @@ import MainLayout from "./Layout/MainLayout";
 
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
+
+
+
+
+
+
+
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Product from "./Pages/Product";
-import Card from "./Pages/Cart";
+import Product from "./pages/Product";
+import Card from "./pages/Cart";
 import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
-import NotFound from "./Pages/NotFound";
+import NotFound from "./pages/NotFound";
 
-import Collection from "./Pages/Collection";
-import Home from "./Pages/Home";
+
+
+import Collection from "./pages/Collection";
+import Home from "./pages/Home";
 import  ShopContextProvider  from "./Context/ShopContext";
 import { CategoryProvider } from './Context/CategoryContext';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -44,15 +54,20 @@ const router = createBrowserRouter(
 const App = () => {
 
   return (
-<CategoryProvider>
-    <ShopContextProvider>
-      <RouterProvider router={router} />
-    </ShopContextProvider>
+
+
+
+
+    <CategoryProvider>
+      <ShopContextProvider>
+        <RouterProvider router={router} />
+      </ShopContextProvider>
     </CategoryProvider>
   );
-    
+
 
 
 };
+
 
 export default App;
