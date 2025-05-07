@@ -10,7 +10,7 @@ import MainLayout from "./Layout/MainLayout";
 
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
-import About from "./pages/About";
+
 import Contact from "./pages/Contact";
 import Product from "./pages/Product";
 import Card from "./pages/Cart";
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="/product" element={<Collection />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/About" element={<About/>}/>
+    
       <Route path="/contact" element={<Contact/>} />
       <Route path="/collection" element={<Collection />} />
       <Route path="/product/:productId" element={<Product />} />
