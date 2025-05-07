@@ -12,6 +12,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 
 import Contact from "./Pages/Contact";
+import About from "./Pages/About";
 import Product from "./Pages/Product";
 import Card from "./Pages/Cart";
 import PlaceOrder from "./Pages/PlaceOrder";
@@ -29,7 +30,7 @@ const router = createBrowserRouter(
       <Route path="/product" element={<Collection />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-    
+    <Route path="/about" element={<About/>} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/collection" element={<Collection />} />
       <Route path="/product/:productId" element={<Product />} />
