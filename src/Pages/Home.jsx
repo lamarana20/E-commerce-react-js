@@ -6,10 +6,11 @@ import MyPolicy from '../Components/MyPolicy'
 import NewLetters from '../Components/NewLetters'
 
 
+
 const Home = () => {
   return (
     <div>
-   
+     
      <Hero />
      <LatestCollection  />
      <BestSeller />

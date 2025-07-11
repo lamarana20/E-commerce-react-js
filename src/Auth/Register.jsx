@@ -19,7 +19,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
-  // Mise à jour des champs
+  // Update fields
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -28,7 +28,7 @@ const Register = () => {
     }));
   };
 
-  // Validation côté client
+  // Client-side validation
   const validateForm = () => {
     const newErrors = {};
 
@@ -49,7 +49,7 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Soumission du formulaire et appel API
+  // Form submission and API call
   const handleRegister = async () => {
     setIsLoading(true);
     try {
@@ -80,7 +80,7 @@ const Register = () => {
     }
   };
 
-  // Gestion du submit
+  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -94,7 +94,7 @@ const Register = () => {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-2xl font-semibold text-gray-800 text-center">Register your account</h5>
 
-          {/* Erreur générale */}
+          {/* General error */}
           {errors.general && (
             <p className="text-red-600 text-sm text-center">{errors.general}</p>
           )}

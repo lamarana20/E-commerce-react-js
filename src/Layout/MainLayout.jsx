@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../Components/Footer';
 import SearchBar from '../Components/SearchBar';
 import { ShopContext } from '../Context/ShopContext';
+import TermsModal from '../Pages/TermsModal'
 
 const MainLayout = () => {
   return (
@@ -19,7 +20,7 @@ const MainLayout = () => {
       </header>
       <main>
         <Outlet />
-        
+          <TermsModal />
         <ToastContainer />
      
       </main>

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
 import Title from '../Components/Title';
 import { FiDownload, FiMail, FiClock, FiTrash2 } from 'react-icons/fi';
@@ -10,15 +11,12 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load orders from localStorage on component mount
   useEffect(() => {
     const loadOrders = () => {
       try {
         const savedOrders = localStorage.getItem('orders');
         if (savedOrders) {
           const parsedOrders = JSON.parse(savedOrders);
-          
-          // Filter out orders older than 5 days
           const recentOrders = parsedOrders.filter(order => {
             const orderDate = new Date(order.date);
             const fiveDaysAgo = new Date();
@@ -27,8 +25,7 @@ const Orders = () => {
           });
 
           setOrders(recentOrders);
-          
-          // Update localStorage with filtered orders
+
           if (recentOrders.length !== parsedOrders.length) {
             localStorage.setItem('orders', JSON.stringify(recentOrders));
           }
@@ -185,14 +182,21 @@ const Orders = () => {
                         className="flex items-start gap-3 border rounded-md p-3 w-full sm:w-[45%] bg-white"
                       >
                         {product?.image_urls?.[0] && (
+                          <Link to={`/product/${product?.id}`}>
                           <img
                             src={product.image_urls[0]}
                             alt={product.name}
                             className="w-20 h-20 object-cover rounded"
                           />
+                          </Link>
                         )}
                         <div>
-                          <p className="font-semibold text-sm">{product?.name || "Product no longer available"}</p>
+                          <Link
+                            to={`/product/${product?.id}`}
+                            className="font-semibold text-sm text-blue-600 hover:underline"
+                          >
+                            {product?.name || "Product no longer available"}
+                          </Link>
                           <ul className="ml-4 list-disc text-sm mt-1">
                             {Object.entries(sizes).map(([size, quantity]) => (
                               <li key={size}>

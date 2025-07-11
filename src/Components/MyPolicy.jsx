@@ -1,38 +1,51 @@
-import React from 'react'
-import { MdCurrencyExchange, MdHighQuality } from "react-icons/md"
+import React from 'react';
+import { MdCurrencyExchange, MdHighQuality } from "react-icons/md";
 import { FaHeadset } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const features = [
   {
-    icon: <MdCurrencyExchange className="w-10 h-10 m-auto mb-4" />,
+    icon: <MdCurrencyExchange className="w-12 h-12 " />,
     title: "Easy Exchange Policy",
-    description: "We offer hassle-free exchanges",
+    description: "We offer hassle-free exchanges for your convenience.",
+    link: "/exchange-policy",
   },
   {
-    icon: <MdHighQuality className="w-10 h-10 text-black-600 m-auto mb-4" />,
-    title: "Quality Products",
-    description: "We guarantee top-notch quality",
+    icon: <MdHighQuality className="w-12 h-12" />,
+    title: "Top Quality Products",
+    description: "Each item is quality-checked to meet our high standards.",
+    link: "/quality",
   },
   {
-    icon: <FaHeadset className="w-10 h-10 m-auto mb-4" />,
-    title: "24/7 Support",
-    description: "Always available to help you",
-    
+    icon: <FaHeadset className="w-12 h-12 " />,
+    title: "24/7 Customer Support",
+    description: "We're always here to assist you at any time.",
+    link: "mailto:mamadoulamakalinko628@gmail.com",
   },
 ];
 
+
 const MyPolicy = () => {
   return (
-    <div className="flex flex-col sm:flex-row justify-around gap-12 sm:gap-2 text-center py-20 sm:text-sm  text-xs md:text-base text-gray-600 ">
-      {features.map((feature, index) => (
-        <div key={index}>
-          {feature.icon}
-          <p className=" font-bold mb-1">{feature.title}</p>
-          <p className="text-gray-500 text-sm">{feature.description}</p>
+    <section className=" py-16 px-4">
+      <div className="max-w-6xl mx-auto text-center scale-110">
+        <h2 className="text-3xl font-bold mb-10">Why Shop With Us?</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {features.map((feature, index) => (
+            <Link
+              to={feature.link}
+              key={index}
+              className="p-6 bg-white shadow rounded hover:shadow-lg transition block hover:bg-gray-50"
+            >
+              <div className="flex justify-center">{feature.icon}</div>
+              <h3 className="mt-4 text-lg font-semibold text-gray-800">{feature.title}</h3>
+              <p className="mt-2 text-gray-600 text-sm">{feature.description}</p>
+            </Link>
+          ))}
         </div>
-      ))}
-    </div>
-  )
-}
+      </div>
+    </section>
+  );
+};
 
-export default MyPolicy
+export default MyPolicy;
