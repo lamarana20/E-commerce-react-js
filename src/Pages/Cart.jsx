@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import Title from "../Components/Title";
-import { BiTrash,BiCart } from "react-icons/bi";
+import { BiTrash, BiCart } from "react-icons/bi";
 import CartTotal from "../Components/CartTotal";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { products, cartItems,updateQuntity} = useContext(ShopContext);
+  const { products, cartItems, updateQuntity } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
   const navigate = useNavigate();
 
@@ -29,21 +28,21 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="border-t pt-14">
-      <div className="text-2xl mb-3">
+    <div className="border-t pt-14 px-4">
+      <div className="text-2xl mb-6 text-center">
         <Title text1="YOUR" text2="CART" />
       </div>
 
       {cartData.length === 0 ? (
-        <p className="text-center text-gray-500 flex items-center justify-center gap-2">Your cart is empty <BiCart />
-       <button 
-       className="text-blue-500 hover:underline"
-       onClick={() => navigate("/")}
-       >
-        Go to Shop
-        </button>
+        <p className="text-center text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 mt-10">
+          Your cart is empty <BiCart size={24} />
+          <button
+            className="text-blue-500 hover:underline mt-2 sm:mt-0"
+            onClick={() => navigate("/")}
+          >
+            Go to Shop
+          </button>
         </p>
-        
       ) : (
         cartData.map((item) => {
           const productData = products.find(
@@ -56,62 +55,106 @@ const Cart = () => {
           return (
             <div
               key={`${item.productId}-${item.size}`}
-              className="py-4 border-t border-b text-gray-500 grid grid-cols-[4fr_1fr_1fr_1fr] sm:grid-cols-[4fr_1fr_1fr_1fr] md:grid-cols-[4fr_1fr_1fr_1fr] lg:grid-cols-[4fr_1fr_1fr_1fr]"
+              className="border rounded-lg p-4 mb-6 flex gap-4 flex-col sm:flex-row"
             >
-              <div className="flex items-start gap-6">
-                <Link to={`/product/${productData.id}`} className="flex items-center gap-2">
+              {/* Product image */}
+              <Link to={`/product/${productData.id}`}>
                 <img
                   src={productData.image_urls?.[0]}
                   alt={productData.name}
-                  className="w-20 h-20 object-cover rounded-lg sm:w-20"
+                  className="w-32 h-32 object-cover rounded-lg"
                 />
-                </Link>
+              </Link>
+
+              {/* Product details */}
+              <div className="flex flex-col justify-between flex-1">
                 <div>
-                  <p className="text-xs sm:text-lg font-medium">
+                  <h2 className="text-lg font-semibold text-gray-800">
                     {productData.name}
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Size: <span className="font-medium">{item.size}</span>
                   </p>
-                  <div className="flex items-center gap-5 mt-2">
-                    <p>${productData.price}</p>
-                    <p className="px-2 sm:px-3 sm:py-1 bg-slate-50 border">
-                      {item.size}
+                  <p className="text-sm text-gray-500 mt-1">
+                    Price: <span className="font-medium">${productData.price}</span>
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 mt-4">
+                  <div className="flex items-center border rounded overflow-hidden">
+                    <button
+                      className="px-2 py-1 text-sm"
+                      onClick={() =>
+                        updateQuntity(item.productId, item.size, item.quantity - 1)
+                      }
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateQuntity(item.productId, item.size, Number(e.target.value))
+                      }
+                      className="w-12 text-center border-x text-sm"
+                    />
+                    <button
+                      className="px-2 py-1 text-sm"
+                      onClick={() =>
+                        updateQuntity(item.productId, item.size, item.quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => updateQuntity(item.productId, item.size, 0)}
+                    className="text-red-600 hover:underline text-sm flex items-center gap-1"
+                  >
+                    <BiTrash /> Remove
+                  </button>
+
+                  <div className="ml-auto text-right">
+                    <p className="text-sm text-gray-700">
+                      Total:{" "}
+                      <span className="font-semibold">
+                        ${itemTotal.toFixed(2)}
+                      </span>
                     </p>
                   </div>
                 </div>
-              </div>
-              
-              <input
-  type="number"
-  min="1"
-  value={item.quantity}
-  onChange={(e) =>
-    e.target.value === "" || e.target.value === "0"
-      ? null
-      : updateQuntity(item.productId, item.size, Number(e.target.value))
-  }
-  className="w-16 sm:w-20 md:w-24 lg:w-28 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-/>
-
-              <BiTrash className="w-4 sm:w-5 cursor-pointer mt-6 hover:text-red-500" onClick={() => updateQuntity(item.productId, item.size, 0)} />
-
-              <div className="flex flex-col items-end">
-                <p className="text-lg font-semibold">${itemTotal.toFixed()}</p>
               </div>
             </div>
           );
         })
       )}
-      <div className="flex justify-end my-20"> 
-        <div className="w-full sm:w-[450px]">
-          <CartTotal />
-          <div className="w-full text-end">
-            <button  onClick={()=>navigate('/place-order')}   className="bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer rounded-full hover:bg-gray-800 transition-colors duration-300">
-             Place Order
-            </button>
 
+      {/* Cart total */}
+      {cartData.length > 0 && (
+        <div className="flex justify-end mt-10">
+          <div className="w-full sm:w-[450px]">
+            <CartTotal />
+            <div className="w-full text-end">
+            <button
+  onClick={() => navigate("/place-order")}
+  disabled={cartData.length === 0}
+  className={`w-full sm:w-auto text-sm my-8 px-6 py-3 rounded-full transition-colors duration-300 ${
+    cartData.length === 0
+      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+      : "bg-black text-white hover:bg-gray-800"
+  }`}
+>
+  Place Order
+</button>
+
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
+
 export default Cart;

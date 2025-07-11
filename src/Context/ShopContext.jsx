@@ -8,7 +8,9 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
-  const[orders, setOrders] = useState([]);
+  const[orders, setOrders] = useState([
+    
+  ]);
   const [deliveryInfo, setDeliveryInfo] = useState({});
   
   useEffect(() => {
@@ -30,9 +32,12 @@ const ShopContextProvider = ({ children }) => {
 //add to cart
 const addToCart = (productId, size) => {
   if(!size){
+
     toast.error('Please select a size');
+
     return;
   }
+
   const cartData = structuredClone(cartItems);
   if(cartData[productId]){
     if(cartData[productId][size]){
@@ -47,6 +52,7 @@ const addToCart = (productId, size) => {
 
   }
   setCartItems(cartData);
+  toast.success('Product added to cart');
 
 
 }
@@ -58,6 +64,7 @@ const updateQuntity = async (productId,size,quantity) =>{
   let cartData = structuredClone(cartItems);
   cartData[productId][size] = quantity;
   setCartItems(cartData);
+  toast.success('Quantity updated');
 
 }
 const getCartAmount =() =>{
@@ -75,6 +82,7 @@ const getCartAmount =() =>{
     }
   }
   return totalAmount;
+
 }
 
 
@@ -87,25 +95,41 @@ function getCountCart() {
     }
   }
   return count;
+
 }
 //order
 const placeOrder = () => {
+  // Vérification du panier
   if (Object.keys(cartItems).length === 0) {
     toast.error("Your cart is empty!");
-    return;
+    return; // On sort immédiatement après l'erreur
   }
 
+  // Vérification des infos de livraison
+  
+
+  // Création de la commande
   const order = {
     id: Date.now(),
     items: JSON.parse(JSON.stringify(cartItems)),
     total: getCartAmount() + deliveryFee,
-    date: new Date().toLocaleString(),
+    date: new Date().toISOString(), // Meilleur format pour les dates
     delivery: { ...deliveryInfo } 
   };
 
-  setOrders((prevOrders) => [...prevOrders, order]);
+  // Mise à jour de l'état ET du localStorage
+  setOrders(prevOrders => {
+    const updatedOrders = [...prevOrders, order];
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+    return updatedOrders;
+  });
+
+  // Vidage du panier
   setCartItems({});
-  toast.success("Order placed successfully!");
+  localStorage.removeItem('cartItems'); // Optionnel si vous voulez garder le panier
+
+  // Confirmation
+  
 };
 
 
