@@ -18,9 +18,9 @@ export const CategoryProvider = ({ children }) => {
 
         const result = await res.json();
     
-        setCategories(result.data || result); // adapte selon la structure reçue
+        setCategories(result.data || result); // adapt based on received structure
       } catch (error) {
-        console.error("Erreur de chargement des catégories:", error);
+        console.error("Error loading categories:", error);
       } finally {
         setLoading(false);
       }

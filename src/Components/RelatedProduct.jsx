@@ -12,9 +12,9 @@ const RelatedProduct = ({ category_id, subcategory, currentId }) => {
       const related = products.filter(product =>
         product.category_id === category_id &&
        // product.sub_category === subcategory &&//
-        product.id !== currentId // Exclure le produit courant
+        product.id !== currentId 
       );
-      setRelatedProducts(related.slice(0, 100)); // limiter à 4 résultats si nécessaire
+      setRelatedProducts(related.slice(0, 100)); 
     }
   }, [products, category_id, currentId, subcategory]);
 

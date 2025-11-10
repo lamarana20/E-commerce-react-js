@@ -7,7 +7,7 @@ const StarRating = ({ onRatingChange }) => {
 
   const handleClick = (rate) => {
     setRating(rate);
-    if (onRatingChange) onRatingChange(rate); // Callback si besoin
+    if (onRatingChange) onRatingChange(rate); 
   };
 
   return (

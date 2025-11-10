@@ -6,12 +6,12 @@ import { useAuth } from "../Context/AuthContext";
 const GuestRoute = ({ children }) => {
   const { token } = useAuth();
 
-  // Si connecté → redirection vers Home (ou autre)
+  // If authenticated → redirect to Home (or another route)
   if (token) {
     return <Navigate to="/" replace />;
   }
 
-  // Sinon, laisse accéder
+  // Otherwise, allow access
   return children;
 };
 

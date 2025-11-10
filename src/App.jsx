@@ -27,14 +27,18 @@ import { AuthProvider } from "./Context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import GuestRoute from "./Components/GuestRoute";
 
+//  Create all routes for the app using React Router
 const router = createBrowserRouter(
   createRoutesFromElements(
     
+    // Base layout (MainLayout) that wraps all pages
     <Route path="/" element={<MainLayout />}>
       
+      {/* Default home page */}
       <Route index element={<Home />} />
+      
+      {/* Public routes */}
       <Route path="/product" element={<Collection />} />
-    
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/collection" element={<Collection />} />
@@ -42,7 +46,7 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<Card />} />
       <Route path="/terms" element={<Terms />} />
 
-      {/* ✅ Routes protégées */}
+      {/*  Protected routes — only accessible if user is logged in */}
       <Route
         path="/place-order"
         element={
@@ -59,25 +63,26 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       />
-       <Route
+
+      {/* Guest-only routes — accessible only if user is NOT logged in */}
+      <Route
         path="/login"
         element={
           <GuestRoute>
             <Login />
           </GuestRoute>
         }
-        />
-        <Route
+      />
+      <Route
         path="/register"
         element={
           <GuestRoute>
             <Register />
-            </GuestRoute>
-           
+          </GuestRoute>
         }
-
       />
 
+      {/* Fallback route for 404 Not Found pages */}
       <Route path="*" element={<NotFound />} />
     </Route>
   )
@@ -85,10 +90,10 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <AuthProvider> {/* ✅ AuthContext nécessaire pour ProtectedRoute */}
+    //  AuthContext is required to manage authentication for ProtectedRoute
+    <AuthProvider> 
       <CategoryProvider>
         <ShopContextProvider>
-           
           <RouterProvider router={router} />
         </ShopContextProvider>
       </CategoryProvider>

@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const profileRef = useRef();
 
-  // Fermer menu profil au clic en dehors
+  // Close profile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -24,7 +24,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Déconnexion
+  // logout
   const handleLogout = () => {
     logout();
     setShowProfileMenu(false);
