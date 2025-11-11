@@ -4,54 +4,72 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="px-6 sm:px-12 lg:px-20">
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm py-10">
+        {/* Logo + Description */}
         <div>
-          <Link to="/">
-            <img src={logo} alt="logo" className="w-32 rounded-4xl" />
+          <Link to="/" aria-label="Home">
+          < img src={logo} alt="MLD logo" className="w-20 sm:w-32 rounded" />
           </Link>
-          <p className="text-gray-500 mt-4 w-full md:w-2/3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptatum. Temporibus autem quibusdam et aut officiis debitis aut rerum
-            necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae
-            non recusandae itaque earum rerum hic tenetur a sapiente.
-          </p>
+        <p className="text-gray-500 mt-4 max-w-md leading-relaxed">
+  Your premier destination for cutting-edge technology and electronics. 
+  We offer authentic products, competitive prices, and expert customer 
+  support to ensure your satisfaction with every purchase.
+</p>
         </div>
+
+        {/* Company Links */}
         <div>
-          <p className="text-xl font-medium mb-5">Company</p>
+          <h3 className="text-lg sm:text-xl font-semibold mb-5">Company</h3>
           <ul className="flex flex-col gap-2 text-gray-600">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/" className="hover:text-black transition">Home</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
+              <Link to="/about" className="hover:text-black transition">About</Link>
             </li>
-            <li>Delivery</li>
+            <li>
+              <Link to="/delivery" className="hover:text-black transition">Delivery</Link>
+            </li>
           </ul>
         </div>
+
+        {/* Support Links */}
         <div>
-          <p className="text-xl font-medium mb-5">Support</p>
+          <h3 className="text-lg sm:text-xl font-semibold mb-5">Support</h3>
           <ul className="flex flex-col gap-2 text-gray-600">
             <li>
-              <a href="tel:+15188782415">+1 518 878 2415</a>
+              <a 
+                href="tel:+15188782415" 
+                className="hover:text-black transition"
+                aria-label="Call us at +1 518 878 2415"
+              >
+                +1 518 878 2415
+              </a>
             </li>
             <li>
-              <a href="mailto:mamadoulamakalinko628@gmail.com">
+              <a 
+                href="mailto:mamadoulamakalinko628@gmail.com" 
+                className="hover:text-black transition"
+                aria-label="Email us"
+              >
                 mamadoulamakalinko628@gmail.com
               </a>
             </li>
             <li>
-              <Link to="/terms">Terms & Conditions</Link>
+              <Link to="/terms" className="hover:text-black transition">Terms & Conditions</Link>
             </li>
-            <Link to="/contact">Contact</Link>
+            <li>
+              <Link to="/contact" className="hover:text-black transition">Contact</Link>
+            </li>
           </ul>
         </div>
       </div>
 
       <div>
-        <hr className="border-gray-200" />
+        <hr />
         <p className="text-sm mt-4 py-5 text-center text-gray-600 font-medium">
-          © 2024 MLD. All rights reserved.
+          © 2025 MLD. All rights reserved.
         </p>
       </div>
     </footer>
