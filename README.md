@@ -209,7 +209,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Mamadou Lamarana Diallo**
 
 - GitHub:https://github.com/lamarana20
-- LinkedIn:https://linkedin.com/in/yourprofile
+- LinkedIn:https://https://www.linkedin.com/in/mamadou-lamarana-diallo-3737662b7/
 - Portfolio: https://lamaranadiallo.com
 - Email: mamadoulamakalinko628@gmail.com
 
