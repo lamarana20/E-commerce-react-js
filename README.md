@@ -1,6 +1,6 @@
 # MLD E-Commerce Platform
 
-![MLD E-Commerce Preview](https://raw.githubusercontent.com/lamarana20/mld-ecommerce/main/public/preview.jpg)
+![MLD E-Commerce Preview](https://raw.githubusercontent.com/lamarana20/E-commerce-react-js/main/public/preview.jpg)
 
 > A modern, responsive e-commerce web application built with passion for clean code, user experience, and performance.
 
@@ -14,7 +14,6 @@
 ## Live Demo
 
 [View Live App](https://lamaecommerceapp.netlify.app/)  
-
 
 ---
 
@@ -67,24 +66,15 @@ I built this project to strengthen my full-stack development skills by connectin
 
 1. Clone the repository
 ```bash
-git clone https://github.com/lamarana20/mld-ecommerce.git
-cd mld-ecommerce
+git clone https://github.com/lamarana20/E-commerce-react-js.git
+
 ```
 
 2. Install dependencies
 ```bash
 npm install
-```
 
-3. Configure environment variables
-```bash
-cp .env.example .env
-```
 
-Update the .env file with your API endpoints:
-```env
-VITE_API_URL=http://localhost:8000/api
-```
 
 4. Start development server
 ```bash
