@@ -22,7 +22,7 @@ const Orders = () => {
       }
 
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/orders", {
+        const res = await fetch("https://store-management-backend-main-ehdxlo.laravel.cloud//api/orders", {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
