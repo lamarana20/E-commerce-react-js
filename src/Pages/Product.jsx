@@ -31,7 +31,7 @@ const Product = () => {
     }
   }, [product]);
 
-  // Timeout après 30 secondes si produit toujours pas trouvé
+  // Timeout after 30 seconds if the product is still not found
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!product) {
@@ -39,7 +39,7 @@ const Product = () => {
       }
     }, 15000); // 15 000 ms = 30s
 
-    return () => clearTimeout(timer); // Nettoyage du timer
+    return () => clearTimeout(timer); // Timer cleanup
   }, [product]);
 
   if (!product) {
@@ -74,7 +74,7 @@ const Product = () => {
       <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
         {/* Images */}
         <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
-          {/* Miniatures */}
+          {/* Thumbnails */}
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[30.7%] w-full">
             {product.image_urls.map((img, index) => (
               <img
@@ -87,7 +87,7 @@ const Product = () => {
             ))}
           </div>
 
-          {/* Image principale */}
+          {/* Main image */}
           <div className="flex-1">
             {image && (
               <img src={image} alt={product.name} className="w-full h-auto " />
@@ -95,7 +95,7 @@ const Product = () => {
           </div>
         </div>
 
-        {/* Détails produit */}
+        {/* Product details */}
         <div className="flex-1">
           <h1 className="text-2xl font-medium mt-2">{product.name}</h1>
           <div className="flex item-center gap-1 mt-2">

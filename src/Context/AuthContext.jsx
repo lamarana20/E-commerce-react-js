@@ -1,33 +1,86 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { API_ENDPOINTS } from "../config/api";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+    const [token, setToken] = useState(() => {
+        return localStorage.getItem("auth_token") || null;
+    });
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("auth_token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem("user");
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
 
-  const login = (newToken) => {
-    setToken(newToken);
-    localStorage.setItem("auth_token", newToken);
-  };
+    const [loading, setLoading] = useState(false);
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem("auth_token");
-  };
+    // Charger le profil si token existe mais pas user
+    useEffect(() => {
+        if (token && !user) {
+            fetchProfile();
+        }
+    }, []);
 
-  return (
-    <AuthContext.Provider value={{ token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    const fetchProfile = async () => {
+        if (!token) return;
+
+        setLoading(true);
+        try {
+            const res = await fetch(API_ENDPOINTS.profile, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json",
+                },
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setUser(data);
+                localStorage.setItem("user", JSON.stringify(data));
+            } else {
+                // Token invalide, déconnecter
+                logout();
+            }
+        } catch (err) {
+            console.error("Failed to fetch profile:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const login = (newToken, userData) => {
+        setToken(newToken);
+        setUser(userData);
+        localStorage.setItem("auth_token", newToken);
+        localStorage.setItem("user", JSON.stringify(userData));
+    };
+
+    const logout = () => {
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("user");
+    };
+
+    const updateUser = (updatedUser) => {
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+    };
+
+    return (
+        <AuthContext.Provider value={{
+            token,
+            user,
+            loading,
+            login,
+            logout,
+            updateUser,
+            fetchProfile,
+        }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = () => useContext(AuthContext);

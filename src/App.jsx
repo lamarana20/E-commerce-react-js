@@ -20,24 +20,33 @@ import NotFound from "./Pages/NotFound";
 import Collection from "./Pages/Collection";
 import Home from "./Pages/Home";
 import Terms from "./Pages/Terms";
+import Profile from "./Pages/Profile";
 
+// Dashboards
+import UserDashboard from "./Pages/Dashboard/UserDashboard";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import AdminOrders from "./Pages/Admin/AdminOrders";
+// import AdminUsers from "./Pages/Admin/AdminUsers";
+// import AdminProducts from "./Pages/Admin/AdminProducts";
+import AdminOrderDetails from "./Pages/Admin/AdminOrderDetails";
+
+
+// Context
 import ShopContextProvider from "./Context/ShopContext";
-import { CategoryProvider } from './Context/CategoryContext';
-import { AuthProvider } from "./Context/AuthContext"; 
+import { CategoryProvider } from "./Context/CategoryContext";
+import { AuthProvider } from "./Context/AuthContext";
+
+// Route Guards
 import ProtectedRoute from "./Components/ProtectedRoute";
 import GuestRoute from "./Components/GuestRoute";
+import AdminRoute from "./Components/AdminRoute";
 
-//  Create all routes for the app using React Router
 const router = createBrowserRouter(
   createRoutesFromElements(
-    
-    // Base layout (MainLayout) that wraps all pages
     <Route path="/" element={<MainLayout />}>
       
-      {/* Default home page */}
-      <Route index element={<Home />} />
-      
       {/* Public routes */}
+      <Route index element={<Home />} />
       <Route path="/product" element={<Collection />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
@@ -46,25 +55,7 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<Card />} />
       <Route path="/terms" element={<Terms />} />
 
-      {/*  Protected routes — only accessible if user is logged in */}
-      <Route
-        path="/place-order"
-        element={
-          <ProtectedRoute>
-            <PlaceOrder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/orders"
-        element={
-          <ProtectedRoute>
-            <Orders />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Guest-only routes — accessible only if user is NOT logged in */}
+      {/* Guest-only routes */}
       <Route
         path="/login"
         element={
@@ -82,7 +73,84 @@ const router = createBrowserRouter(
         }
       />
 
-      {/* Fallback route for 404 Not Found pages */}
+      {/* Protected routes (User) */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <UserDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/place-order"
+        element={
+          <ProtectedRoute>
+            <PlaceOrder />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Admin routes */}
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <AdminRoute>
+            <AdminOrders />
+          </AdminRoute>
+        }
+      />
+      {/* <Route
+        path="/admin/users"
+        element={
+          <AdminRoute>
+            <AdminUsers />
+          </AdminRoute>
+        }
+      /> */}
+      {/* <Route
+        path="/admin/products"
+        element={
+          <AdminRoute>
+            <AdminProducts />
+          </AdminRoute>
+        }
+      /> */}
+      <Route
+  path="/admin/orders/:id"
+  element={
+    <AdminRoute>
+      <AdminOrderDetails />
+    </AdminRoute>
+  }
+/>
+
+
+      {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Route>
   )
@@ -90,8 +158,7 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    //  AuthContext is required to manage authentication for ProtectedRoute
-    <AuthProvider> 
+    <AuthProvider>
       <CategoryProvider>
         <ShopContextProvider>
           <RouterProvider router={router} />

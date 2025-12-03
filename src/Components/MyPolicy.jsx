@@ -34,7 +34,7 @@ const MyPolicy = () => {
             <Link
               to={feature.link}
               key={index}
-              className="p-6 bg-white shadow rounded-lg hover:shadow-xl transition-all duration-300 block hover:bg-gray-50 transform hover:-translate-y-1" // ✅ Ajouté hover lift
+              className="p-6 bg-white shadow rounded-lg hover:shadow-xl transition-all duration-300 block hover:bg-gray-50 transform hover:-translate-y-1" // ✅ Added hover lift effect
             >
               <div className="flex justify-center">{feature.icon}</div>
               <h3 className="mt-4 text-lg font-semibold text-gray-800">{feature.title}</h3>

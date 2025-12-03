@@ -1,16 +1,29 @@
+const BASE_URL = "http://127.0.0.1:8000/api";
 
-
-// The base URL of your API
-const API_BASE_URL = "https://store-management-backend-main-ehdxlo.laravel.cloud/api";
-
-// All your API endpoints
 export const API_ENDPOINTS = {
-    login: `${API_BASE_URL}/login`,
-    register: `${API_BASE_URL}/register`,
-    // You can add more endpoints here later
-    // products: `${API_BASE_URL}/products`,
-    // users: `${API_BASE_URL}/users`,
+    // Auth
+    register: `${BASE_URL}/register`,
+    login: `${BASE_URL}/login`,
+    logout: `${BASE_URL}/logout`,
+    
+    // Profile
+    profile: `${BASE_URL}/profile`,
+    updatePassword: `${BASE_URL}/profile/password`,
+    
+    // Products
+    products: `${BASE_URL}/products`,
+    
+    // Orders (User)
+    orders: `${BASE_URL}/orders`,
+    
+    // Dashboard
+    userDashboard: `${BASE_URL}/dashboard/user`,
+    adminDashboard: `${BASE_URL}/admin/dashboard`,
+    
+    // Admin
+    adminOrders: `${BASE_URL}/admin/orders`,
+    adminUsers: `${BASE_URL}/admin/users`,
+    adminProducts: `${BASE_URL}/admin/products`,
 };
 
-// Also export the base URL in case you need it
-export { API_BASE_URL };
+export default BASE_URL;

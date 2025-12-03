@@ -9,203 +9,152 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
-  const [orders, setOrders] = useState([]);
-  const [deliveryInfo, setDeliveryInfo] = useState({});
 
   const deliveryFee = 5.0;
+  
+  // URLs centralisées
+  const API_URL = "http://127.0.0.1:8000/api";
 
-  // Load products from API
+  // Load products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(
-          "https://store-management-backend-main-ehdxlo.laravel.cloud/api/products"
-        );
-        
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
+        const res = await fetch(`${API_URL}/products`);
+        if (!res.ok) throw new Error("Failed to load products");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
-        console.error("Error loading products:", err);
-        toast.error(`Failed to load products: ${err?.message || "Unknown error"}`);
+        console.error(err);
+        toast.error("Failed to load products");
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem("cartItems");
-      if (savedCart) {
-        setCartItems(JSON.parse(savedCart));
-      }
-    } catch (error) {
-      console.error("Error loading cart:", error);
+    const savedCart = localStorage.getItem("cartItems");
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage
   useEffect(() => {
-    try {
-      if (Object.keys(cartItems).length > 0) {
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      } else {
-        localStorage.removeItem("cartItems");
-      }
-    } catch (error) {
-      console.error("Error saving cart:", error);
+    if (Object.keys(cartItems).length > 0) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    } else {
+      localStorage.removeItem("cartItems");
     }
   }, [cartItems]);
 
-  // Load orders from localStorage on mount
-  useEffect(() => {
-    try {
-      const savedOrders = localStorage.getItem("orders");
-      if (savedOrders) {
-        setOrders(JSON.parse(savedOrders));
-      }
-    } catch (error) {
-      console.error("Error loading orders:", error);
-    }
-  }, []);
-
-  // Add product to cart
   const addToCart = (productId, size) => {
     if (!size) {
       toast.error("Please select a size");
       return;
     }
 
-    setCartItems((prevCart) => {
-      const cartData = structuredClone(prevCart);
-      
-      if (cartData[productId]) {
-        if (cartData[productId][size]) {
-          cartData[productId][size] += 1;
-        } else {
-          cartData[productId][size] = 1;
-        }
-      } else {
-        cartData[productId] = { [size]: 1 };
-      }
-      
-      return cartData;
+    setCartItems((prev) => {
+      const cart = structuredClone(prev);
+      if (!cart[productId]) cart[productId] = {};
+      cart[productId][size] = (cart[productId][size] || 0) + 1;
+      return cart;
     });
 
-    toast.success("Product added to cart");
+    toast.success("Added to cart");
   };
 
-  // Update cart item quantity
   const updateQuantity = (productId, size, quantity) => {
-    setCartItems((prevCart) => {
-      const cartData = structuredClone(prevCart);
-      
+    setCartItems((prev) => {
+      const cart = structuredClone(prev);
+
       if (quantity <= 0) {
-        delete cartData[productId][size];
-        
-        if (Object.keys(cartData[productId]).length === 0) {
-          delete cartData[productId];
+        delete cart[productId][size];
+        if (Object.keys(cart[productId]).length === 0) {
+          delete cart[productId];
         }
-        
-        toast.success("Item removed from cart");
       } else {
-        cartData[productId][size] = quantity;
-        toast.success("Quantity updated");
+        cart[productId][size] = quantity;
       }
-      
-      return cartData;
+
+      return cart;
     });
   };
 
-  // Calculate total cart amount
   const getCartAmount = () => {
-    let totalAmount = 0;
-    
+    let total = 0;
     for (const productId in cartItems) {
       const product = products.find((p) => p.id === parseInt(productId));
-      
-      if (!product) {
-        console.warn(`Product ${productId} not found`);
-        continue;
-      }
-      
+      if (!product) continue;
       for (const size in cartItems[productId]) {
-        const quantity = cartItems[productId][size];
-        if (quantity > 0) {
-          totalAmount += product.price * quantity;
-        }
+        total += product.price * cartItems[productId][size];
       }
     }
-    
-    return totalAmount;
+    return total;
   };
 
-  // Count total items in cart
   const getCountCart = () => {
     let count = 0;
-    
     for (const productId in cartItems) {
       for (const size in cartItems[productId]) {
         count += cartItems[productId][size];
       }
     }
-    
     return count;
   };
 
-  // Place order
-  const placeOrder = async (paymentMethod = "stripe") => {
+  // Token passé en paramètre
+  const placeOrder = async (paymentMethod, deliveryData, token) => {
+     
+    if (!token) {
+      toast.error("Please login to place an order");
+      throw new Error("Not authenticated");
+    }
+
     if (Object.keys(cartItems).length === 0) {
       toast.error("Your cart is empty!");
-      throw new Error("Empty cart");
+      throw new Error("Cart is empty");
     }
 
-    if (!deliveryInfo.email || !deliveryInfo.firstName) {
-      toast.error("Please provide delivery information!");
-      throw new Error("Missing delivery info");
+    const body = {
+      items: cartItems,
+      subtotal: getCartAmount(),
+      delivery_fee: deliveryFee,
+      total: getCartAmount() + deliveryFee,
+      payment_method: paymentMethod,
+      delivery_first_name: deliveryData.firstName,
+      delivery_last_name: deliveryData.lastName,
+      delivery_email: deliveryData.email,
+      delivery_phone: deliveryData.phone,
+      delivery_address: deliveryData.address,
+      delivery_city: deliveryData.city,
+      delivery_state: deliveryData.state,
+      delivery_zip: deliveryData.zip,
+      delivery_country: deliveryData.country,
+    };
+
+    const res = await fetch(`${API_URL}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Order failed");
     }
 
-    try {
-      const order = {
-        id: Date.now(),
-        items: JSON.parse(JSON.stringify(cartItems)),
-        total: getCartAmount() + deliveryFee,
-        subtotal: getCartAmount(),
-        deliveryFee: deliveryFee,
-        date: new Date().toISOString(),
-        delivery: { ...deliveryInfo },
-        payment: paymentMethod,
-        status: "pending"
-      };
+    setCartItems({});
+    localStorage.removeItem("cartItems");
 
-      if (!order.date || !order.total || !order.items) {
-        throw new Error("Invalid order data");
-      }
-
-      const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
-      const updatedOrders = [...existingOrders, order];
-      
-      localStorage.setItem("orders", JSON.stringify(updatedOrders));
-      setOrders(updatedOrders);
-
-      setCartItems({});
-      localStorage.removeItem("cartItems");
-      setDeliveryInfo({});
-
-      toast.success("Order placed successfully!");
-      return order;
-    } catch (error) {
-      console.error("Error placing order:", error);
-      toast.error("Failed to place order. Please try again.");
-      throw error;
-    }
+    return data;
   };
 
   const value = {
@@ -216,20 +165,17 @@ const ShopContextProvider = ({ children }) => {
     showSearch,
     setShowSearch,
     cartItems,
-    setCartItems,
     addToCart,
     updateQuantity,
     getCountCart,
     getCartAmount,
     deliveryFee,
-    orders,
-    setOrders,
     placeOrder,
-    deliveryInfo,
-    setDeliveryInfo,
   };
 
-  return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
+  return (
+    <ShopContext.Provider value={value}>{children}</ShopContext.Provider>
+  );
 };
 
 export default ShopContextProvider;
