@@ -22,7 +22,7 @@ const Orders = () => {
       }
 
       try {
-        const res = await fetch("https://store-management-backend-main-ehdxlo.laravel.cloud//api/orders", {
+        const res = await fetch("https://store-management-backend-main-ehdxlo.laravel.cloud/api/orders", {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
