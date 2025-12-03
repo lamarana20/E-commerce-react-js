@@ -23,7 +23,7 @@ const PlaceOrder = () => {
         formState: { errors },
     } = useForm();
 
-    // Pré-remplir avec les infos du user connecté
+    // Pre-fill with the logged-in user's info
     useEffect(() => {
         if (user) {
             const nameParts = (user.name || "").split(" ");
@@ -44,7 +44,7 @@ const PlaceOrder = () => {
         }
     }, [user, reset]);
 
-    // Rediriger si pas connecté
+    // Redirect if user is not logged in
     if (!token) {
         return (
             <div className="max-w-6xl mx-auto px-4 py-16 text-center">
@@ -59,7 +59,7 @@ const PlaceOrder = () => {
         );
     }
 
-    // Rediriger si panier vide
+    // Redirect if the cart is empty
     if (getCountCart() === 0) {
         return (
             <div className="max-w-6xl mx-auto px-4 py-16 text-center">

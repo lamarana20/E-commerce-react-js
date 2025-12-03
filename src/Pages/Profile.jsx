@@ -18,14 +18,14 @@ const Profile = () => {
         formState: { errors, isSubmitting },
     } = useForm();
 
-    // Rediriger si pas connecté
+    // Redirect if user is not logged in
     useEffect(() => {
         if (!token) {
             navigate("/login");
         }
     }, [token, navigate]);
 
-    // Pré-remplir le formulaire
+    // Pre-fill the form with current profile data
     useEffect(() => {
         if (user) {
             reset({

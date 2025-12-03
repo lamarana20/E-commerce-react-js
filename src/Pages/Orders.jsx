@@ -64,7 +64,7 @@ const Orders = () => {
   };
 
   const renderItems = (items) => {
-    // items est un JSON stocké en DB
+    // Items are stored as JSON in the database
     if (typeof items === "string") {
       items = JSON.parse(items);
     }

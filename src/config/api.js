@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = "https://store-management-backend-main-ehdxlo.laravel.cloud/api";
 
 export const API_ENDPOINTS = {
     // Auth

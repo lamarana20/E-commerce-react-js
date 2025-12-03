@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
 
-    // Charger le profil si token existe mais pas user
+    // Load the profile if a token exists but user data is missing
     useEffect(() => {
         if (token && !user) {
             fetchProfile();
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(data);
                 localStorage.setItem("user", JSON.stringify(data));
             } else {
-                // Token invalide, déconnecter
+                // Invalid token, log the user out
                 logout();
             }
         } catch (err) {

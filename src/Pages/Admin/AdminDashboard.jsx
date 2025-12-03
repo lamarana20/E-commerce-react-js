@@ -37,10 +37,10 @@ const AdminDashboard = () => {
 
             const data = await response.json();
             
-            // Log pour debug
+            // Debug log
             console.log("Dashboard data received:", data);
             
-            // S'assurer que toutes les valeurs numériques sont bien des nombres
+            // Ensure every numeric value is parsed properly
             const sanitizedData = {
                 ...data,
                 total_revenue: parseFloat(data.total_revenue) || 0,
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
         }
     };
 
-    // Fonction helper pour formater les nombres
+    // Helper to format numeric values
     const formatNumber = (num) => {
         if (typeof num === 'number') {
             return num.toLocaleString('en-US');
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
         return "0";
     };
 
-    // Fonction helper pour formater la monnaie
+    // Helper to format currency values
     const formatCurrency = (amount) => {
         const num = parseFloat(amount) || 0;
         return new Intl.NumberFormat('en-US', {
@@ -238,7 +238,7 @@ const AdminDashboard = () => {
                         </thead>
                         <tbody>
                             {(stats.recent_orders || []).map((order) => {
-                                // Assurez-vous que les données de commande sont correctes
+                                // Ensure the order data is valid before rendering
                                 const orderTotal = parseFloat(order.total) || 0;
                                 const orderStatus = order.order_status || "Unknown";
                                 

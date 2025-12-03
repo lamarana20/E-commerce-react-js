@@ -12,8 +12,8 @@ const ShopContextProvider = ({ children }) => {
 
   const deliveryFee = 5.0;
   
-  // URLs centralisées
-  const API_URL = "http://127.0.0.1:8000/api";
+  // Centralized API URLs
+  const API_URL = "https://store-management-backend-main-ehdxlo.laravel.cloud/api";
 
   // Load products
   useEffect(() => {
@@ -105,7 +105,7 @@ const ShopContextProvider = ({ children }) => {
     return count;
   };
 
-  // Token passé en paramètre
+  // Token is passed in as a parameter
   const placeOrder = async (paymentMethod, deliveryData, token) => {
      
     if (!token) {
