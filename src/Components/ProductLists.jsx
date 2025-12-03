@@ -21,7 +21,7 @@ const ProductLists = () => {
           {products.map((product) => (
             <li key={product.sku} className="bg-white rounded-xl shadow hover:shadow-lg transition-all border border-gray-200 p-4">
               <img
-                src={product.image_url || "https://via.placeholder.com/300x200?text=Image"}
+                src={product.image_url || "https://images.unsplash.com/photo-1764617988939-034265354ad6?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                 alt={product.name}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
