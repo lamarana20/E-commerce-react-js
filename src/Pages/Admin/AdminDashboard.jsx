@@ -38,7 +38,7 @@ const AdminDashboard = () => {
             const data = await response.json();
             
             // Debug log
-            console.log("Dashboard data received:", data);
+            // console.log("Dashboard data received:", data);
             
             // Ensure every numeric value is parsed properly
             const sanitizedData = {
